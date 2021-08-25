@@ -14,6 +14,7 @@ public class Shot : MonoBehaviour
     public void FireProjectile()
     {
         GameObject shot = Instantiate(point, null);
+        shot.SetActive(true);
         shot.transform.position = this.transform.position;
         shot.transform.LeanScale(new Vector3(1, 1, 1), 0);
         shot.transform.rotation = this.transform.rotation;

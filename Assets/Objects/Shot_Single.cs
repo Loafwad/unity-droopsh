@@ -19,7 +19,7 @@ public class Shot_Single : Shot
     {
         if (col.gameObject.tag == "Tile")
         {
-            col.gameObject.GetComponent<Tile>().DestroyTile();
+            col.gameObject.GetComponent<Tile>().DisableTile();
             col.gameObject.SetActive(false);
             this.gameObject.GetComponent<Collider2D>().enabled = false;
         }

@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
     [SerializeField] public float spawnChance;
     [SerializeField] private string typeName;
     private Rigidbody2D rb;
-    [SerializeField] private GameObject particle;
+    [SerializeField] public GameObject particle;
     // Start is called before the first frame update
     private TileSpawner tileSpawner;
     void Awake()
@@ -22,6 +22,10 @@ public class Tile : MonoBehaviour
         {
             reticle = GameObject.Find("PierceShot");
         }
+        else
+        {
+            reticle = GameObject.Find("Default");
+        }
         tileSpawner = GameObject.Find("Spawner").GetComponent<TileSpawner>();
     }
     void Start()
@@ -33,12 +37,13 @@ public class Tile : MonoBehaviour
     }
 
     bool isClicked;
+    bool isAvailable = true;
     void Update()
     {
         if (isClicked)
         {
             this.GetComponent<Collider2D>().isTrigger = true;
-            reticle.transform.position = this.transform.position;
+            reticle.transform.position = transform.position;
             Vector2 dir = Input.mousePosition - Camera.main.WorldToScreenPoint(reticle.transform.position);
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             reticle.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -47,21 +52,48 @@ public class Tile : MonoBehaviour
 
     IEnumerator DisableTrigger()
     {
+        reticle.transform.rotation = this.transform.rotation;
         yield return new WaitForSeconds(0.5f);
         this.GetComponent<Collider2D>().isTrigger = false;
+        isClicked = false;
     }
 
-    public void DestroyTile()
+    public virtual void DisableTile()
     {
         GameObject deathParticle = Instantiate(particle, transform.position,
              transform.rotation);
         ParticleSystem.MainModule main = deathParticle.GetComponent<ParticleSystem>().main;
         main.startColor = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+        this.gameObject.SetActive(false);
+        transform.parent = null;
+
+        tileSpawner.availableTiles.Add(this.gameObject);
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    public void ReuseTile()
     {
+        this.gameObject.SetActive(false);
+        transform.parent = null;
 
+        tileSpawner.availableTiles.Add(this.gameObject);
+    }
+    public void EnableTile()
+    {
+        transform.parent = null;
+        this.gameObject.SetActive(true);
+        GetComponent<Rigidbody2D>().simulated = true;
+        GetComponent<Tile>().GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        GetComponent<Collider2D>().enabled = true;
+
+        tileSpawner.availableTiles.Remove(this.gameObject);
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "OutOfBounds")
+        {
+            ReuseTile();
+        }
     }
     void OnMouseDown()
     {
@@ -72,7 +104,6 @@ public class Tile : MonoBehaviour
 
     void OnMouseUp()
     {
-        isClicked = false;
         reticle.GetComponent<ReticleAnimation>().Deselect();
         StartCoroutine(DisableTrigger());
     }

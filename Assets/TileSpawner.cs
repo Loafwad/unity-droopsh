@@ -10,7 +10,7 @@ public class TileSpawner : MonoBehaviour
 
     [SerializeField] private GameObject[] tiles;
 
-    [SerializeField] private List<GameObject> activeTiles;
+    [SerializeField] public List<GameObject> availableTiles;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,14 +19,14 @@ public class TileSpawner : MonoBehaviour
         for (int i = 0; i < 50; i++)
         {
             GameObject tile = Instantiate(tiles[Random.Range(0, tiles.Length)]);
-            activeTiles.Add(tile);
+            availableTiles.Add(tile);
             SpawnTile(spawnArea, tile);
             tile.SetActive(false);
             tile.transform.position = new Vector2(tile.transform.position.x, -100);
         }
     }
 
-    private void SpawnTile(Vector2 bounds, GameObject tile)
+    public void SpawnTile(Vector2 bounds, GameObject tile)
     {
         Vector2 randomPos = new Vector2(Random.Range(-bounds.x, bounds.x), Random.Range(this.transform.position.y, this.transform.position.y + bounds.y));
         tile.transform.position = randomPos;
@@ -35,21 +35,18 @@ public class TileSpawner : MonoBehaviour
     private IEnumerator SpawnerController()
     {
         WaitForSeconds wait = new WaitForSeconds(spawnDelay);
-        for (int i = 0; i < activeTiles.Count; i++)
+        for (int i = 0; i < availableTiles.Count; i++)
         {
             //activeTiles[i] = tiles[Random.Range(0, tiles.Length)];
-            GameObject tile = activeTiles[i];
-            if (tile.transform.position.y < Random.Range(-15, -25))
+            GameObject tile = availableTiles[i];
+            tile.GetComponent<Rigidbody2D>().simulated = false;
+
+            if (Random.value <= tile.GetComponent<Tile>().spawnChance)
             {
-                if (Random.value <= tile.GetComponent<Tile>().spawnChance)
-                {
-                    tile.transform.parent = null;
-                    tile.GetComponent<Rigidbody2D>().simulated = true;
-                    tile.GetComponent<Tile>().GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                    tile.SetActive(true);
-                    yield return wait;
-                    SpawnTile(spawnArea, tile);
-                }
+                yield return wait;
+                tile.SetActive(true);
+                tile.GetComponent<Tile>().EnableTile();
+                SpawnTile(spawnArea, tile);
             }
         }
 

@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7262905569682234881}
   - component: {fileID: 7262905569682234880}
-  - component: {fileID: 7262905569682234883}
+  - component: {fileID: 5940432299153641152}
   - component: {fileID: 7262905569682234882}
   m_Layer: 0
   m_Name: Time
@@ -137,7 +137,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7262905569682234883
+--- !u!114 &5940432299153641152
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,16 +146,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7262905569682235389}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 274e37d7e32244d4a8f908a6800b029d, type: 3}
+  m_Script: {fileID: 11500000, guid: 40ce04dd2020cc5469f86afa1918c2f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  singleCanvas: {fileID: 0}
-  pierceCanvas: {fileID: 0}
+  reticle: {fileID: 0}
   gravity: 1.25
-  spawnChance: 0.04
-  typeName: pierce
+  spawnChance: 0.01
+  typeName: time
   particle: {fileID: 4832228643463698155, guid: e679efaf63710794aba29530cafa1548, type: 3}
-  tileSpawner: {fileID: 0}
 --- !u!61 &7262905569682234882
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ public class Shot_Pierce : Shot
         col.transform.SetParent(this.transform);
     }
     int pierceCount = 0;
+    List<GameObject> piercedObject = new List<GameObject>();
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Tile")
@@ -24,6 +25,7 @@ public class Shot_Pierce : Shot
             pierceCount++;
             if (pierceCount <= 3)
             {
+                piercedObject.Add(col.gameObject);
                 Debug.Log("HIT BY PIERCE");
                 pierced = true;
                 IsPierced(col.gameObject, pierceCount);
@@ -35,6 +37,11 @@ public class Shot_Pierce : Shot
         }
         if (col.gameObject.tag == "Wall")
         {
+            for (int i = 0; i < piercedObject.Count; i++)
+            {
+                piercedObject[i].GetComponent<Tile>().DisableTile();
+            }
+
             this.GetComponent<Rigidbody2D>().simulated = false;
             this.GetComponent<Rigidbody2D>().isKinematic = true;
             this.GetComponent<Collider2D>().enabled = false;
