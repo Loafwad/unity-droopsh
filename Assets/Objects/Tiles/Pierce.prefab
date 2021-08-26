@@ -149,13 +149,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 274e37d7e32244d4a8f908a6800b029d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  singleCanvas: {fileID: 0}
-  pierceCanvas: {fileID: 0}
+  reticle: {fileID: 0}
   gravity: 0.75
   spawnChance: 0.2
   typeName: pierce
   particle: {fileID: 4832228643463698155, guid: e679efaf63710794aba29530cafa1548, type: 3}
-  tileSpawner: {fileID: 0}
 --- !u!61 &7262905569682234882
 BoxCollider2D:
   m_ObjectHideFlags: 0

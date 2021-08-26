@@ -177,6 +177,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reticle: {fileID: 0}
   gravity: 0.25
-  spawnChance: 0.8
+  spawnChance: 0.6
   typeName: single
   particle: {fileID: 4832228643463698155, guid: e679efaf63710794aba29530cafa1548, type: 3}

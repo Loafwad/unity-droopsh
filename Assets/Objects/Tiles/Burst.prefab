@@ -125,8 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ebac386fd1c624d98f7e465349016d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point: {fileID: 7285678299227589068}
-  projectileSpeed: 25
+  point: {fileID: 7389089343079459474, guid: 9da9a497ee6fa1b468de0318449fe4da, type: 3}
+  projectileSpeed: 15
 --- !u!1 &7262905569682235389
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: {fileID: 7389089343079459474, guid: 9da9a497ee6fa1b468de0318449fe4da, type: 3}
-  projectileSpeed: 25
+  projectileSpeed: 5
 --- !u!50 &8294080898184646263
 Rigidbody2D:
   serializedVersion: 4

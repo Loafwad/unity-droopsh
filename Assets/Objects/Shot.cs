@@ -15,11 +15,10 @@ public class Shot : MonoBehaviour
     {
         GameObject shot = Instantiate(point, null);
         shot.SetActive(true);
+        shot.transform.localScale = new Vector3(1, 1, 1);
         shot.transform.position = this.transform.position;
-        shot.transform.LeanScale(new Vector3(1, 1, 1), 0);
         shot.transform.rotation = this.transform.rotation;
         shot.GetComponent<Rigidbody2D>().AddRelativeForce(-this.transform.right * projectileSpeed * 100);
         shot.GetComponent<Collider2D>().enabled = true;
-        this.gameObject.SetActive(false);
     }
 }

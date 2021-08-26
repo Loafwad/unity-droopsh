@@ -15,13 +15,22 @@ public class Shot_Single : Shot
     {
 
     }
+    int counter;
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Tile")
         {
-            col.gameObject.GetComponent<Tile>().DisableTile();
-            col.gameObject.SetActive(false);
+            counter++;
+            if (counter >= 2)
+            {
+                counter = 0;
+                return;
+            }
+            this.gameObject.SetActive(false);
             this.gameObject.GetComponent<Collider2D>().enabled = false;
+            gameObject.SetActive(false);
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            col.gameObject.GetComponent<Tile>().DisableTile();
         }
     }
 

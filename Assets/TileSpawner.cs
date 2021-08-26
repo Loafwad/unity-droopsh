@@ -6,17 +6,19 @@ public class TileSpawner : MonoBehaviour
 {
     public int score;
     [SerializeField] private Vector2 spawnArea;
-    [SerializeField] private float spawnDelay = 0.2f;
+    [SerializeField] private float spawnDelay;
 
-    [SerializeField] private GameObject[] tiles;
+    [SerializeField] public GameObject[] tiles;
 
     [SerializeField] public List<GameObject> availableTiles;
     // Start is called before the first frame update
+    public float spawnTime;
     void Start()
     {
+        spawnTime = spawnDelay;
         spawnArea = new Vector2(this.GetComponent<Collider2D>().bounds.size.x, this.GetComponent<Collider2D>().bounds.size.y);
         StartCoroutine(SpawnerController());
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 500; i++)
         {
             GameObject tile = Instantiate(tiles[Random.Range(0, tiles.Length)]);
             availableTiles.Add(tile);
@@ -34,23 +36,21 @@ public class TileSpawner : MonoBehaviour
 
     private IEnumerator SpawnerController()
     {
-        WaitForSeconds wait = new WaitForSeconds(spawnDelay);
         for (int i = 0; i < availableTiles.Count; i++)
         {
             //activeTiles[i] = tiles[Random.Range(0, tiles.Length)];
             GameObject tile = availableTiles[i];
             tile.GetComponent<Rigidbody2D>().simulated = false;
 
-            if (Random.value <= tile.GetComponent<Tile>().spawnChance)
+            if (Random.value < tile.GetComponent<Tile>().spawnChance)
             {
-                yield return wait;
+                yield return new WaitForSeconds(spawnTime);
                 tile.SetActive(true);
                 tile.GetComponent<Tile>().EnableTile();
                 SpawnTile(spawnArea, tile);
             }
         }
-
-        yield return wait;
+        yield return new WaitForSeconds(spawnTime);
         StartCoroutine(SpawnerController());
     }
 }

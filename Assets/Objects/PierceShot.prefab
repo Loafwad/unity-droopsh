@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: {fileID: 7389089343079459474, guid: 9da9a497ee6fa1b468de0318449fe4da, type: 3}
-  projectileSpeed: 15
+  projectileSpeed: 25
   maxAngularVelocity: 0
 --- !u!50 &7568371161992074957
 Rigidbody2D:

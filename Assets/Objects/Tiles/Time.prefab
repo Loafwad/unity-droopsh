@@ -154,6 +154,7 @@ MonoBehaviour:
   spawnChance: 0.01
   typeName: time
   particle: {fileID: 4832228643463698155, guid: e679efaf63710794aba29530cafa1548, type: 3}
+  slowDuration: 0.2
 --- !u!61 &7262905569682234882
 BoxCollider2D:
   m_ObjectHideFlags: 0
