@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
+    [SerializeField] private GameObject freezeBorder;
     [SerializeField] private GameObject reticle;
     [SerializeField] private float gravity;
     [SerializeField] public float spawnChance;
@@ -23,6 +24,10 @@ public class Tile : MonoBehaviour
         {
             reticle = GameObject.Find("PierceShot");
         }
+        else if (typeName == "freeze")
+        {
+            reticle = GameObject.Find("FreezeShot");
+        }
         else
         {
             reticle = GameObject.Find("Default");
@@ -38,6 +43,32 @@ public class Tile : MonoBehaviour
         rb.gravityScale = gravity;
     }
 
+    Vector2 previousVelocity;
+    float previousGravity;
+    public void SetFreeze()
+    {
+        scoreManager.IncreaseScore(1, this.transform.position);
+        previousVelocity = gameObject.GetComponent<Rigidbody2D>().velocity;
+        previousGravity = gameObject.GetComponent<Rigidbody2D>().gravityScale;
+        GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        GetComponent<Rigidbody2D>().gravityScale = 0;
+        GetComponent<Rigidbody2D>().mass = 1000;
+        GetComponent<Rigidbody2D>().angularVelocity = 0;
+        freezeBorder.SetActive(true);
+        freezeBorder.transform.position = transform.position;
+        freezeBorder.transform.rotation = transform.rotation;
+    }
+
+    public void UnFreeze()
+    {
+        if (previousGravity != 0)
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, previousVelocity.y);
+            GetComponent<Rigidbody2D>().gravityScale = this.GetComponent<Tile>().gravity;
+            GetComponent<Rigidbody2D>().mass = 1;
+            freezeBorder.SetActive(false);
+        }
+    }
     bool isClicked;
     bool isAvailable = true;
     void Update()
@@ -68,6 +99,7 @@ public class Tile : MonoBehaviour
         setPos = false;
         StartCoroutine(EnableCollider());
         GetComponent<Rigidbody2D>().AddRelativeForce(reticle.transform.right * 2 * 100);
+        UnFreeze();
     }
 
     IEnumerator EnableCollider()
@@ -116,9 +148,10 @@ public class Tile : MonoBehaviour
             ReuseTile();
         }
     }
+    Vector3 reticlePrevPos;
     void OnMouseDown()
     {
-
+        reticlePrevPos = reticle.transform.position;
         isClicked = true;
         reticle.GetComponent<ReticleAnimation>().Selected();
     }

@@ -34,22 +34,27 @@ public class ScoreManager : MonoBehaviour
     }
 
     int counter;
-
+    int comboCounter;
     public void IncreaseScore(int amount, Vector3 pos)
     {
         counter++;
         textAnimator.CreateCombo(pos, counter);
-        if (counter >= minComboAmount)
+        if (score > 100 / 5 * minComboAmount)
         {
-            if (minComboAmount < 3)
+            comboCounter++;
+            if (comboCounter >= 3)
             {
                 minComboAmount = minComboAmount + 1;
+                comboCounter = 0;
             }
+        }
+        if (counter >= minComboAmount)
+        {
             timeRemaining++;
             textAnimator.CreateSecond(pos);
-            if (spawnManager.spawnTime > 0.1f)
+            if (spawnManager.spawnTime > 0.05f)
             {
-                spawnManager.spawnTime = spawnManager.spawnTime - 0.05f;
+                spawnManager.spawnTime = spawnManager.spawnTime - 0.007f;
             }
             counter = 0;
         }

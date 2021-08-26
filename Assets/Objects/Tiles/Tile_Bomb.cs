@@ -2,24 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile_Time : Tile
+public class Tile_Bomb : Tile
 {
-    [SerializeField] private float slowDuration = 1f;
-    private TimeManager time;
-    void Start()
-    {
-        time = GameObject.Find("TimeManager").GetComponent<TimeManager>();
-    }
+    [SerializeField] private GameObject explosionCollider;
     public override void DisableTile()
     {
-        StartCoroutine(DelayTime());
+        explosionCollider.gameObject.SetActive(true);
+        StartCoroutine(DestroyTile());
     }
 
-    private IEnumerator DelayTime()
+    public IEnumerator DestroyTile()
     {
-        time.SetTime(0.15f, 0.005f);
-
-        yield return new WaitForSeconds(slowDuration / 0.15f);
+        yield return new WaitForSeconds(0.2f);
         GameObject deathParticle = Instantiate(particle, transform.position,
             transform.rotation);
         ParticleSystem.MainModule main = deathParticle.GetComponent<ParticleSystem>().main;
