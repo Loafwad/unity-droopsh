@@ -39,14 +39,18 @@ public class Tile : MonoBehaviour
     {
         this.GetComponent<Collider2D>().enabled = true;
         rb = this.GetComponent<Rigidbody2D>();
+        rb.simulated = true;
         rb.velocity = new Vector2(gravity, gravity);
         rb.gravityScale = gravity;
     }
 
     Vector2 previousVelocity;
     float previousGravity;
+    bool isFrozen;
+
     public void SetFreeze()
     {
+        isFrozen = true;
         scoreManager.IncreaseScore(1, this.transform.position);
         previousVelocity = gameObject.GetComponent<Rigidbody2D>().velocity;
         previousGravity = gameObject.GetComponent<Rigidbody2D>().gravityScale;
@@ -63,6 +67,7 @@ public class Tile : MonoBehaviour
     {
         if (previousGravity != 0)
         {
+            isFrozen = false;
             GetComponent<Rigidbody2D>().velocity = new Vector2(0, previousVelocity.y);
             GetComponent<Rigidbody2D>().gravityScale = this.GetComponent<Tile>().gravity;
             GetComponent<Rigidbody2D>().mass = 1;
@@ -70,7 +75,6 @@ public class Tile : MonoBehaviour
         }
     }
     bool isClicked;
-    bool isAvailable = true;
     void Update()
     {
         if (isClicked)
@@ -81,7 +85,7 @@ public class Tile : MonoBehaviour
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             reticle.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
-        if (setPos)
+        else if (setPos)
         {
             reticle.transform.position = this.transform.position;
         }
@@ -90,18 +94,16 @@ public class Tile : MonoBehaviour
     bool setPos;
     IEnumerator AfterShot()
     {
-        isClicked = false;
         setPos = true;
+        isClicked = false;
         yield return new WaitForSeconds(reticle.GetComponent<ReticleAnimation>().deselectAnimTime);
         this.GetComponent<Collider2D>().isTrigger = false;
         Debug.Log("Finished anim");
         GetComponent<Collider2D>().enabled = false;
         setPos = false;
-        StartCoroutine(EnableCollider());
         GetComponent<Rigidbody2D>().AddRelativeForce(reticle.transform.right * 2 * 100);
         UnFreeze();
     }
-
     IEnumerator EnableCollider()
     {
         yield return new WaitForSeconds(0.1f);
@@ -110,35 +112,39 @@ public class Tile : MonoBehaviour
 
     public virtual void DisableTile()
     {
+        isClicked = false;
         scoreManager.IncreaseScore(1, this.transform.position);
         GameObject deathParticle = Instantiate(particle, transform.position,
              transform.rotation);
         ParticleSystem.MainModule main = deathParticle.GetComponent<ParticleSystem>().main;
         main.startColor = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
-        this.gameObject.SetActive(false);
         transform.parent = null;
-        isClicked = false;
 
         tileSpawner.availableTiles.Add(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
     public void ReuseTile()
     {
-        this.gameObject.SetActive(false);
         transform.parent = null;
+        isClicked = false;
 
         tileSpawner.availableTiles.Add(this.gameObject);
+        this.gameObject.SetActive(false);
     }
     public void EnableTile()
-
     {
         transform.parent = null;
         this.gameObject.SetActive(true);
-        GetComponent<Rigidbody2D>().simulated = true;
         GetComponent<Tile>().GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         GetComponent<Collider2D>().enabled = true;
+        GetComponent<Rigidbody2D>().simulated = true;
 
-        tileSpawner.availableTiles.Remove(this.gameObject);
+        int index = tileSpawner.availableTiles.IndexOf(this.gameObject);
+        if (index < tileSpawner.availableTiles.Count - 1 && index > 0)
+        {
+            tileSpawner.availableTiles.RemoveAt(index);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -151,16 +157,16 @@ public class Tile : MonoBehaviour
     Vector3 reticlePrevPos;
     void OnMouseDown()
     {
-        reticlePrevPos = reticle.transform.position;
         isClicked = true;
+        reticlePrevPos = reticle.transform.position;
         reticle.GetComponent<ReticleAnimation>().Selected();
     }
 
     Quaternion reticleRotation;
     void OnMouseUp()
     {
-        reticle.GetComponent<ReticleAnimation>().Deselect();
         StartCoroutine(AfterShot());
+        reticle.GetComponent<ReticleAnimation>().Deselect();
     }
     // Update is called once per frame
 }

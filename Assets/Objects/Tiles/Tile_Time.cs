@@ -12,7 +12,10 @@ public class Tile_Time : Tile
     }
     public override void DisableTile()
     {
-        StartCoroutine(DelayTime());
+        if (gameObject != null || this.gameObject.activeSelf == true)
+        {
+            StartCoroutine(DelayTime());
+        }
     }
 
     private IEnumerator DelayTime()
@@ -24,6 +27,6 @@ public class Tile_Time : Tile
             transform.rotation);
         ParticleSystem.MainModule main = deathParticle.GetComponent<ParticleSystem>().main;
         main.startColor = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }

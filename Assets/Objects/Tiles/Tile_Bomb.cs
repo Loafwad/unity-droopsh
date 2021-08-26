@@ -8,7 +8,10 @@ public class Tile_Bomb : Tile
     public override void DisableTile()
     {
         explosionCollider.gameObject.SetActive(true);
-        StartCoroutine(DestroyTile());
+        if (this.gameObject != null)
+        {
+            StartCoroutine(DestroyTile());
+        }
     }
 
     public IEnumerator DestroyTile()

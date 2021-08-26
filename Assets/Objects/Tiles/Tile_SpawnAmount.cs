@@ -17,6 +17,7 @@ public class Tile_SpawnAmount : Tile
     }
     int originalSpawnAmount;
     int counter;
+    int multiplierAmount;
     public override void DisableTile()
     {
         spawnAmount = defaultSpawnAmount;
@@ -24,20 +25,35 @@ public class Tile_SpawnAmount : Tile
              transform.rotation);
         ParticleSystem.MainModule main = deathParticle.GetComponent<ParticleSystem>().main;
         main.startColor = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+        GetComponent<Collider2D>().enabled = false;
+        multiplierAmount = 0;
         for (int i = 0; i < spawnAmount; i++)
         {
             //GameObject tile = Instantiate(tileSpawner.tiles[Random.Range(0, tileSpawner.tiles.Length)]);
+            if (spawnAmount > 1000)
+            {
+                break;
+            }
             GameObject chosenTile = this.tileSpawner.tiles[Random.Range(0, tileSpawner.tiles.Length)];
             float spawnChance = chosenTile.GetComponent<Tile>().spawnChance;
             float RandomValue = Random.value;
             GameObject customTile = this.tileSpawner.availableTiles[Random.Range(0, tileSpawner.availableTiles.Count)];
-            GameObject tile;
             if (SameType(chosenTile, customTile))
             {
-                tile = customTile;
+                if (customTile.GetComponent<Tile>().typeName == "3x" ||
+                customTile.GetComponent<Tile>().typeName == "5x" ||
+                customTile.GetComponent<Tile>().typeName == "10x")
+                {
+                    multiplierAmount++;
+                    if (multiplierAmount >= 3)
+                    {
+                        spawnAmount++;
+                        continue;
+                    }
+                }
+                GameObject tile = customTile;
                 if (spawnChance >= RandomValue)
                 {
-                    Debug.Log("Spwaned with: " + spawnChance + " : " + RandomValue);
                     tile.transform.GetComponent<Tile>().EnableTile();
                     tile.transform.position = this.transform.position;
                     scoreManager.IncreaseScore(1, tile.transform.position);
@@ -45,6 +61,7 @@ public class Tile_SpawnAmount : Tile
                 else
                 {
                     spawnAmount++;
+                    continue;
                 }
             }
             else
@@ -54,12 +71,17 @@ public class Tile_SpawnAmount : Tile
             }
         }
 
+        multiplierAmount = 0;
         this.gameObject.SetActive(false);
         tileSpawner.availableTiles.Add(this.gameObject);
     }
 
     public static bool SameType(GameObject first, GameObject second)
     {
+        if (first == null || second == null)
+        {
+            return false;
+        }
         string fr = first.GetComponent<Tile>().typeName;
         string sc = second.GetComponent<Tile>().typeName;
         if (fr != sc)

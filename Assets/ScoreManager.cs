@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class ScoreManager : MonoBehaviour
 {
     public int score;
@@ -20,6 +20,10 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(ReduceTime());
+    }
+    public void ReloadLevel()
+    {
+        Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
     }
     void Update()
     {
@@ -52,7 +56,7 @@ public class ScoreManager : MonoBehaviour
         {
             timeRemaining++;
             textAnimator.CreateSecond(pos);
-            if (spawnManager.spawnTime > 0.05f)
+            if (spawnManager.spawnTime > 0.035f)
             {
                 spawnManager.spawnTime = spawnManager.spawnTime - 0.007f;
             }

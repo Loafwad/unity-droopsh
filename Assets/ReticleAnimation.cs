@@ -45,7 +45,7 @@ public class ReticleAnimation : MonoBehaviour
 
         /*  Time.timeScale = 1f;
          Time.fixedDeltaTime = 0.02f; */
-        time.SetTime(1f, 0.015f);
+        time.SetTime(0.9f, 0.015f);
         LeanTween.moveLocalX(circle1, c1end, deselectAnimTime).setEase(animCurve);
         LeanTween.moveLocalX(circle2, c2end, deselectAnimTime).setEase(animCurve);
         if (point != null)

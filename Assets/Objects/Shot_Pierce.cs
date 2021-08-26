@@ -45,6 +45,13 @@ public class Shot_Pierce : Shot
             this.GetComponent<Rigidbody2D>().simulated = false;
             this.GetComponent<Rigidbody2D>().isKinematic = true;
             this.GetComponent<Collider2D>().enabled = false;
+            StartCoroutine(DestroyShot());
         }
+    }
+
+    private IEnumerator DestroyShot()
+    {
+        yield return new WaitForSeconds(1);
+        Destroy(this.gameObject);
     }
 }
