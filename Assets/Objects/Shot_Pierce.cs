@@ -20,7 +20,7 @@ public class Shot_Pierce : Shot
     List<GameObject> piercedObject = new List<GameObject>();
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Tile")
+        if (col.gameObject.tag == "Tile" && col)
         {
             pierceCount++;
             if (pierceCount <= 3)

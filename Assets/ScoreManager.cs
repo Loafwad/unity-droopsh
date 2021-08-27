@@ -19,6 +19,11 @@ public class ScoreManager : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
+        StartCoroutine(StartTimer());
+    }
+    private IEnumerator StartTimer()
+    {
+        yield return new WaitForSeconds(3f);
         StartCoroutine(ReduceTime());
     }
     public void ReloadLevel()

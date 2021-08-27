@@ -103,6 +103,7 @@ public class Tile : MonoBehaviour
         setPos = false;
         GetComponent<Rigidbody2D>().AddRelativeForce(reticle.transform.right * 2 * 100);
         UnFreeze();
+        StartCoroutine(EnableCollider());
     }
     IEnumerator EnableCollider()
     {
@@ -134,11 +135,11 @@ public class Tile : MonoBehaviour
     }
     public void EnableTile()
     {
-        transform.parent = null;
         this.gameObject.SetActive(true);
+        GetComponent<Rigidbody2D>().simulated = true;
+        transform.parent = null;
         GetComponent<Tile>().GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         GetComponent<Collider2D>().enabled = true;
-        GetComponent<Rigidbody2D>().simulated = true;
 
         int index = tileSpawner.availableTiles.IndexOf(this.gameObject);
         if (index < tileSpawner.availableTiles.Count - 1 && index > 0)

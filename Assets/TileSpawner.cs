@@ -15,6 +15,12 @@ public class TileSpawner : MonoBehaviour
     public float spawnTime;
     void Start()
     {
+        StartCoroutine(StartGame());
+    }
+
+    private IEnumerator StartGame()
+    {
+        yield return new WaitForSeconds(3);
         spawnTime = spawnDelay;
         spawnArea = new Vector2(this.GetComponent<Collider2D>().bounds.size.x, this.GetComponent<Collider2D>().bounds.size.y);
         StartCoroutine(SpawnerController());
@@ -44,7 +50,6 @@ public class TileSpawner : MonoBehaviour
             {
                 continue;
             }
-            tile.GetComponent<Rigidbody2D>().simulated = false;
 
             if (Random.value < tile.GetComponent<Tile>().spawnChance)
             {

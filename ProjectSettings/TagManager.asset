@@ -10,6 +10,7 @@ TagManager:
   - Tile
   - Wall
   - OutOfBounds
+  - Button
   layers:
   - Default
   - TransparentFX
