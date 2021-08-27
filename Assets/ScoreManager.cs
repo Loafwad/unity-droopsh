@@ -48,7 +48,7 @@ public class ScoreManager : MonoBehaviour
     {
         counter++;
         textAnimator.CreateCombo(pos, counter);
-        if (score > 100 / 5 * minComboAmount)
+        if (score > 100 / 4.5 * minComboAmount)
         {
             comboCounter++;
             if (comboCounter >= 3)
