@@ -18,8 +18,12 @@ public class Tile_Burst : Tile
         ParticleSystem.MainModule main = deathParticle.GetComponent<ParticleSystem>().main;
         main.startColor = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
         customShot.BurstProjectile(Random.rotation);
+        this.PlayAudioShot();
         customShot.BurstProjectile(Random.rotation);
+        this.PlayAudioShot();
         customShot.BurstProjectile(Random.rotation);
+        this.PlayAudioShot();
+        this.PlayAudioHit();
         this.gameObject.GetComponent<Collider2D>().enabled = false;
         tileSpawner.availableTiles.Add(this.gameObject);
         this.gameObject.SetActive(false);

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Audio;
 public class Tile : MonoBehaviour
 {
     [SerializeField] private GameObject freezeBorder;
@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] public GameObject particle;
     // Start is called before the first frame update
+    private AudioManager audioManager;
     private TileSpawner tileSpawner;
     private ScoreManager scoreManager;
     void Awake()
@@ -32,6 +33,7 @@ public class Tile : MonoBehaviour
         {
             reticle = GameObject.Find("Default");
         }
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         tileSpawner = GameObject.Find("Spawner").GetComponent<TileSpawner>();
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
     }
@@ -95,6 +97,7 @@ public class Tile : MonoBehaviour
     IEnumerator AfterShot()
     {
         setPos = true;
+        PlayAudioShot();
         isClicked = false;
         yield return new WaitForSeconds(reticle.GetComponent<ReticleAnimation>().deselectAnimTime);
         this.GetComponent<Collider2D>().isTrigger = false;
@@ -120,11 +123,24 @@ public class Tile : MonoBehaviour
         ParticleSystem.MainModule main = deathParticle.GetComponent<ParticleSystem>().main;
         main.startColor = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
         transform.parent = null;
-
+        PlayAudioHit();
+        PlayAudioHitSecondary();
         tileSpawner.availableTiles.Add(this.gameObject);
         this.gameObject.SetActive(false);
     }
+    public void PlayAudioHit()
+    {
+        audioManager.PlayAudioHit(this.transform.position);
+    }
+    public void PlayAudioHitSecondary()
+    {
+        audioManager.PlayAudioHitSecondary(this.transform.position);
+    }
+    public void PlayAudioShot()
+    {
+        audioManager.PlayAudioShot(this.transform.position);
 
+    }
     public void ReuseTile()
     {
         transform.parent = null;

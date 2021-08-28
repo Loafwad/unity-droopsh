@@ -21,6 +21,7 @@ public class Tile_Bomb : Tile
             transform.rotation);
         ParticleSystem.MainModule main = deathParticle.GetComponent<ParticleSystem>().main;
         main.startColor = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+        this.PlayAudioHit();
         this.gameObject.SetActive(false);
     }
 }

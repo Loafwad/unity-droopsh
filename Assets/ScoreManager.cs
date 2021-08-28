@@ -14,9 +14,15 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TileSpawner spawnManager;
     [SerializeField] private TextAnimator textAnimator;
     [SerializeField] private GameObject gameOverText;
+
+    private AudioManager audioManager;
     // Start is called before the first frame update
 
     // Update is called once per frame
+    void Awake()
+    {
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+    }
     void Start()
     {
         StartCoroutine(StartTimer());
@@ -48,7 +54,7 @@ public class ScoreManager : MonoBehaviour
     {
         counter++;
         textAnimator.CreateCombo(pos, counter);
-        if (score > 100 / 4.5 * minComboAmount)
+        if (score > 120 / 5 * minComboAmount)
         {
             comboCounter++;
             if (comboCounter >= 3)
@@ -60,6 +66,7 @@ public class ScoreManager : MonoBehaviour
         if (counter >= minComboAmount)
         {
             timeRemaining++;
+            audioManager.PlayAudioExtraSeconds(pos);
             textAnimator.CreateSecond(pos);
             if (spawnManager.spawnTime > 0.035f)
             {

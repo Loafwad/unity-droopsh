@@ -54,6 +54,7 @@ public class Tile_SpawnAmount : Tile
                 GameObject tile = customTile;
                 if (spawnChance >= RandomValue)
                 {
+                    PlayAudioHit(); //spawn sound isntead
                     tile.transform.GetComponent<Tile>().EnableTile();
                     tile.transform.position = this.transform.position;
                     scoreManager.IncreaseScore(1, tile.transform.position);

@@ -23,6 +23,7 @@ public class Tile_Time : Tile
         time.SetTime(0.15f, 0.005f);
 
         yield return new WaitForSeconds(slowDuration / 0.15f);
+        this.PlayAudioHit();
         GameObject deathParticle = Instantiate(particle, transform.position,
             transform.rotation);
         ParticleSystem.MainModule main = deathParticle.GetComponent<ParticleSystem>().main;

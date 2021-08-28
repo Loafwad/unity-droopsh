@@ -5,8 +5,13 @@ using UnityEngine;
 public class Shot_Pierce : Shot
 {
     [SerializeField] private float maxAngularVelocity = 25f;
-    bool pierced;
 
+    private AudioManager audioManager;
+    bool pierced;
+    void Awake()
+    {
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+    }
 
     void IsPierced(GameObject col, int pierceCount)
     {
@@ -25,6 +30,7 @@ public class Shot_Pierce : Shot
             pierceCount++;
             if (pierceCount <= 3)
             {
+                audioManager.PlayAudioPierce(col.transform.position);
                 piercedObject.Add(col.gameObject);
                 Debug.Log("HIT BY PIERCE");
                 pierced = true;
@@ -41,7 +47,7 @@ public class Shot_Pierce : Shot
             {
                 piercedObject[i].GetComponent<Tile>().DisableTile();
             }
-
+            audioManager.PlayAudioWallHit(this.transform.position);
             this.GetComponent<Rigidbody2D>().simulated = false;
             this.GetComponent<Rigidbody2D>().isKinematic = true;
             this.GetComponent<Collider2D>().enabled = false;
