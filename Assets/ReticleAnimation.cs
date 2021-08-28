@@ -16,34 +16,50 @@ public class ReticleAnimation : MonoBehaviour
 
     [SerializeField] private AnimationCurve animCurve;
     [SerializeField] private float selectAnimTime;
-    [SerializeField] private float deselectAnimTime;
+    [SerializeField] public float deselectAnimTime;
 
+    private TimeManager time;
+
+    void Start()
+    {
+        time = GameObject.Find("TimeManager").GetComponent<TimeManager>();
+    }
 
     public void Selected()
     {
         this.gameObject.SetActive(true);
-        point.gameObject.SetActive(true);
+        if (point != null)
+        {
+            point.gameObject.SetActive(true);
+        }
         LeanTween.moveLocalX(circle2, c2start, selectAnimTime).setEase(animCurve);
         LeanTween.moveLocalX(circle1, c1start, selectAnimTime).setEase(animCurve);
-        LeanTween.moveLocalX(point, pointStart, selectAnimTime).setEase(animCurve);
-        Time.timeScale = 0.2f;
-        Time.fixedDeltaTime = 0.005f;
+        if (point != null) LeanTween.moveLocalX(point, pointStart, selectAnimTime).setEase(animCurve);
+        time.SetTime(0.15f, 0.005f);
+        /* Time.timeScale = 0.2f;
+        Time.fixedDeltaTime = 0.005f; */
     }
 
     public void Deselect()
     {
 
-        Time.timeScale = 1f;
-        Time.fixedDeltaTime = 0.02f;
+        /*  Time.timeScale = 1f;
+         Time.fixedDeltaTime = 0.02f; */
+        time.SetTime(0.9f, 0.015f);
         LeanTween.moveLocalX(circle1, c1end, deselectAnimTime).setEase(animCurve);
         LeanTween.moveLocalX(circle2, c2end, deselectAnimTime).setEase(animCurve);
-        LeanTween.moveLocalX(point, pointEnd, deselectAnimTime).setEase(animCurve).setOnComplete(() =>
+        if (point != null)
         {
-            point.GetComponent<Shot>().FireProjectile();
+            LeanTween.moveLocalX(point, pointEnd, deselectAnimTime).setEase(animCurve).setOnComplete(() =>
+            {
+                point.GetComponent<Shot>().FireProjectile();
+                this.gameObject.SetActive(false);
+            }
+        );
+        }
+        else
+        {
             this.gameObject.SetActive(false);
         }
-        );
     }
-
-
 }

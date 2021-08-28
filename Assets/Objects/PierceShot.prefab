@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5902194559762702950}
-  m_LocalRotation: {x: -0, y: -0, z: 0.9363491, w: 0.35107026}
-  m_LocalPosition: {x: -0.292, y: 0.006, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.9272535, w: 0.37443435}
+  m_LocalPosition: {x: -0.757, y: 0.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5902194560428211544}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 138.894}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 136.021}
 --- !u!212 &5902194559762702968
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -109,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5902194560428211527}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 9.547749, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 82.553696, y: 82.553696, z: 82.55372}
   m_Children:
   - {fileID: 5902194559762702951}
@@ -129,7 +129,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.7351662, y: -0.13488749}
+  m_Offset: {x: -1.5382943, y: -0.017199855}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -140,7 +140,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5399063, y: 0.20640677}
+  m_Size: {x: 0.40291548, y: 0.24778739}
   m_EdgeRadius: 0
 --- !u!114 &6742134404149520024
 MonoBehaviour:
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: {fileID: 7389089343079459474, guid: 9da9a497ee6fa1b468de0318449fe4da, type: 3}
-  projectileSpeed: 10
+  projectileSpeed: 25
   maxAngularVelocity: 0
 --- !u!50 &7568371161992074957
 Rigidbody2D:
@@ -174,7 +174,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 2
+  m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 0

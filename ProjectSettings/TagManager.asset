@@ -9,6 +9,8 @@ TagManager:
   - Spike
   - Tile
   - Wall
+  - OutOfBounds
+  - Button
   layers:
   - Default
   - TransparentFX
