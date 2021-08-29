@@ -617,7 +617,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  logo: {fileID: 0}
+  logo: {fileID: 1949213150}
   logoTime: 2
   logoAnimCurve:
     serializedVersion: 2
