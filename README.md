@@ -14,4 +14,3 @@ The packages we use in this project are:
 
 ## Authors
 * [@Loafwad](https://github.com/loafwad) - 🇳🇴
-* [@Glaze](https://github.com/Glaze96) - 🇸🇪 
